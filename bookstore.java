@@ -26,7 +26,7 @@ public class bookstore {
 		
 		while(isCustomerQuestion){ //while loop makes this go on forever until they pick a valid option
 		
-		System.out.println("Is there another customer in line? Reply with 1 for yes, and 2 for no.");
+		System.out.println("Is there a customer in line? Reply with 1 for yes, and 2 for no.");
 		responseCustomer = customer.nextLine();
 
 				if (responseCustomer.equals("1") || responseCustomer.equals("2")){
@@ -105,6 +105,7 @@ public class bookstore {
 										purchaseTotal = (nBooks * 5) + actualMarksPrice + (nPings * 100);
 										if (customerNumber % 3 == 0){
 											purchaseTotal = purchaseTotal * .9;
+											System.out.println("Congratulations, you're one of the lucky discount customers!");
 										}
 										finalTotal = (purchaseTotal * .07);
 										finalTotal += purchaseTotal;
@@ -113,7 +114,7 @@ public class bookstore {
 										if(nBooks == 0 && nMarks == 0 && nPings > 0){ //in the following if statements I cover every possible combination of purchases
 											System.out.println("Your final order: ");
 											System.out.println(nPings + " paintings of books @ $" + (nPings * 100));
-											System.out.println("Your subtotal is: $" + purchaseTotal);
+											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);											
 											System.out.println("Please enter the amount you will pay: ");
 											while(badAMT){
@@ -133,7 +134,7 @@ public class bookstore {
 										else if(nBooks == 0 && nPings == 0 && nMarks > 0){
 											System.out.println("Your final order: ");
 											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
-											System.out.println("Your subtotal is: $" + purchaseTotal);
+											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay:");
 											while(badAMT){
@@ -153,7 +154,7 @@ public class bookstore {
 										else if(nMarks == 0 && nPings == 0 && nBooks > 0){
 											System.out.println("Your final order: ");
 											System.out.println(nBooks + " books @ $" + (nBooks * 5));
-											System.out.println("Your subtotal is: $" + purchaseTotal);
+											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay:");
 											while(badAMT){
@@ -172,7 +173,7 @@ public class bookstore {
 											System.out.println("Your final order: ");
 											System.out.println(nBooks + " books @ $" + (nBooks * 5));
 											System.out.println(nPings + " paintings of books @ $" + (nPings * 100));
-											System.out.println("Your subtotal is: $" + purchaseTotal);
+											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay:");
 											while(badAMT){
@@ -191,7 +192,7 @@ public class bookstore {
 											System.out.println("Your final order: ");
 											System.out.println(nBooks + " books @ $" + (nBooks * 5));
 											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
-											System.out.println("Your subtotal is: $" + purchaseTotal);
+											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay: ");
 											while(badAMT){
@@ -210,7 +211,7 @@ public class bookstore {
 											System.out.println("Your final order: ");
 											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
 											System.out.println(nPings + " paintings of books @ $" + (nPings * 100));
-											System.out.println("Your subtotal is: $" + purchaseTotal);
+											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay: ");
 											while(badAMT){
@@ -231,7 +232,7 @@ public class bookstore {
 											System.out.println(nBooks + " books @ $" + (nBooks * 5));
 											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
 											System.out.println(nPings + " paintings of books @ $" + (nPings * 100));
-											System.out.println("Your subtotal is: $" + purchaseTotal);
+											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay:");
 											while(badAMT){
