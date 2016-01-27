@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class bookstore {
+	
+	
 
 	public static void main(String args[]){
 		
@@ -8,6 +10,7 @@ public class bookstore {
 		
 		int spareAMT;
 		int packsAMT;
+		int cardResponse; //do they have a card for an extra discount?
 		double userAMT; //the amount they are paying with
 		boolean isCustomerQuestion = true; //this is for the while loop
 		boolean isOrder = true;
@@ -15,6 +18,7 @@ public class bookstore {
 		String responseCustomer; //is there a customer?
 		String choice;  //menu choice
 		int customerNumber = 0; //track how many customers have gone thru
+		double bookTotal; //cost of the books alone, used for determining a book discount
 		double purchaseTotal; //total amount customer is being charged with before discounts etc
 		double finalTotal; //total amount after discounts etc
 		double actualMarksPrice; //determine actual bookmark total
@@ -27,6 +31,7 @@ public class bookstore {
 		while(isCustomerQuestion){ //while loop makes this go on forever until they pick a valid option
 		
 		System.out.println("Is there a customer in line? Reply with 1 for yes, and 2 for no.");
+		
 		responseCustomer = customer.nextLine();
 
 				if (responseCustomer.equals("1") || responseCustomer.equals("2")){
@@ -38,7 +43,7 @@ public class bookstore {
 						isCustomerQuestion = false;
 						isOrder = true;
 						int nBooks = 0; //number of books
-						int nMarks = 0; //number of bookmarks
+						int nMarks = 0; //number of book marks
 						int nPings = 0; //number of paintings
 						customerNumber++;
 						while(isOrder){
@@ -102,11 +107,19 @@ public class bookstore {
 										
 										actualMarksPrice = (packsAMT * 5) + (spareAMT * 1);
 										
-										purchaseTotal = (nBooks * 5) + actualMarksPrice + (nPings * 100);
+										bookTotal = (nBooks * 5);
+										cardResponse = bookWorm(); //determine their card status
+										if (cardResponse == 1){
+											bookTotal = bookTotal * .75;
+										}
+										
+										purchaseTotal = bookTotal + actualMarksPrice + (nPings * 100);
 										if (customerNumber % 3 == 0){
 											purchaseTotal = purchaseTotal * .9;
 											System.out.println("Congratulations, you're one of the lucky discount customers!");
 										}
+										
+										
 										finalTotal = (purchaseTotal * .07);
 										finalTotal += purchaseTotal;
 										
@@ -153,7 +166,7 @@ public class bookstore {
 										}
 										else if(nMarks == 0 && nPings == 0 && nBooks > 0){
 											System.out.println("Your final order: ");
-											System.out.println(nBooks + " books @ $" + (nBooks * 5));
+											System.out.printf(nBooks + " books @ $%.2f%n", bookTotal);
 											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay:");
@@ -171,7 +184,7 @@ public class bookstore {
 											}}
 										else if(nMarks == 0 && nPings > 0 && nBooks > 0){
 											System.out.println("Your final order: ");
-											System.out.println(nBooks + " books @ $" + (nBooks * 5));
+											System.out.printf(nBooks + " books @ $%.2f%n", bookTotal);
 											System.out.println(nPings + " paintings of books @ $" + (nPings * 100));
 											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
@@ -190,7 +203,7 @@ public class bookstore {
 											}}
 										else if(nMarks > 0 && nPings == 0 && nBooks > 0){
 											System.out.println("Your final order: ");
-											System.out.println(nBooks + " books @ $" + (nBooks * 5));
+											System.out.printf(nBooks + " books @ $%.2f%n", bookTotal);
 											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
 											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
@@ -229,7 +242,7 @@ public class bookstore {
 										}
 										else if(nPings > 0 && nBooks > 0 && nMarks > 0){
 											System.out.println("Your final order: ");
-											System.out.println(nBooks + " books @ $" + (nBooks * 5));
+											System.out.printf(nBooks + " books @ $%.2f%n", bookTotal);
 											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
 											System.out.println(nPings + " paintings of books @ $" + (nPings * 100));
 											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
@@ -265,6 +278,7 @@ public class bookstore {
 				}
 				else{
 					System.out.println("Invalid input. Cmon now");
+					
 				}
 					
 			
@@ -274,5 +288,13 @@ public class bookstore {
 			
 		}
 	}
+	public static int bookWorm(){  //i avoided methods for some reason but I at last found use for one with the bonus
+		int cardHolder;
+		Scanner worm = new Scanner(System.in);
+		System.out.println("Do you have a Bookworm Card? Type 1 for yes and 2 for no");
+		cardHolder = worm.nextInt();
+		return cardHolder;
+	}
+	
 
 }
