@@ -15,8 +15,10 @@ public class bookstore {
 		boolean isCustomerQuestion = true; //this is for the while loop
 		boolean isOrder = true;
 		boolean badAMT = true; //while loop for purchasing
+		boolean userEdit = true; //while loop for editing
 		String responseCustomer; //is there a customer?
 		String choice;  //menu choice
+		String userRemove; //removal choice
 		int customerNumber = 0; //track how many customers have gone thru
 		double bookTotal; //cost of the books alone, used for determining a book discount
 		double purchaseTotal; //total amount customer is being charged with before discounts etc
@@ -26,6 +28,7 @@ public class bookstore {
 		Scanner customer = new Scanner(System.in); //user input on customer
 		Scanner menu = new Scanner(System.in); //user input in the menu
 		Scanner purchase = new Scanner(System.in); //user input on their purchase
+		Scanner remove = new Scanner(System.in); //user input on what they want to remove
 		
 		
 		while(isCustomerQuestion){ //while loop makes this go on forever until they pick a valid option
@@ -54,20 +57,24 @@ public class bookstore {
 							System.out.println("|      Every Third Customer Gets A 10% Off Discount!!!      |");
 							System.out.println("|  1 Adds A Book To Your Order, 2 A Bookmark, 3 A Painting  |");
 							System.out.println("|       4 Will Show Your Current Order, 5 To Checkout       |");
+							System.out.println("|              Want To Edit Your Order? Press 6             |");
 							System.out.println("|___________________________________________________________|");
 
 							choice = menu.nextLine();
 							
-								if(choice.equals("1") || choice.equals("2") || choice.equals("3") || choice.equals("4") || choice.equals("5")){
+								if(choice.equals("1") || choice.equals("2") || choice.equals("3") || choice.equals("4") || choice.equals("5") || choice.equals("6")){
 
 									if (choice.equals("1")){
 										nBooks++; //increment number of books
+										System.out.println("Added a book");
 									}
 									else if(choice.equals("2")){
 										nMarks++; //increment number of marks
+										System.out.println("Added a bookmark");
 									}
 									else if(choice.equals("3")){
 										nPings++; //increment number of paintings
+										System.out.println("Added a painting");
 									}
 									else if(choice.equals("4")){
 										if(nBooks == 0 && nMarks == 0 && nPings == 0){
@@ -263,6 +270,33 @@ public class bookstore {
 										}
 									
 																		
+									}
+									else if(choice.equals("6")){
+										isOrder = false; //we're temporarily done with the menu
+										System.out.println("What changes do you want to make? Enter the same number to remove whichever item you wish. Entering 4 will quit the edit prompt.");
+										while(userEdit){
+											userRemove = remove.nextLine();
+											if(userRemove.equals("1")){
+												nBooks--;
+												System.out.println("One book removed.");
+											}
+											else if (userRemove.equals("2")){
+												nMarks--;
+												System.out.println("One bookmark removed.");
+											}
+											else if (userRemove.equals("3")){
+												nPings--;
+												System.out.println("One painting removed.");
+											}
+											else if (userRemove.equals("4")){
+												userEdit = false;
+												isOrder = true;
+											}
+											else{
+												System.out.println("Enter a valid input, please!");
+											}
+										}
+									
 									}
 								}
 								else{
