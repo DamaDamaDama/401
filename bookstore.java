@@ -9,7 +9,7 @@ public class bookstore {
 	
 		
 		int spareAMT;
-		int packsAMT;
+		double packsAMT;
 		int cardResponse; //do they have a card for an extra discount?
 		double userAMT; //the amount they are paying with
 		boolean isCustomerQuestion = true; //this is for the while loop
@@ -153,7 +153,7 @@ public class bookstore {
 										}
 										else if(nBooks == 0 && nPings == 0 && nMarks > 0){
 											System.out.println("Your final order: ");
-											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
+											System.out.printf(nMarks + " bookmarks @ $%.2f%n", actualMarksPrice);
 											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay:");
@@ -211,7 +211,7 @@ public class bookstore {
 										else if(nMarks > 0 && nPings == 0 && nBooks > 0){
 											System.out.println("Your final order: ");
 											System.out.printf(nBooks + " books @ $%.2f%n", bookTotal);
-											System.out.println(nMarks + " bookmarks @ $" + actualMarksPrice);
+											System.out.printf(nMarks + " bookmarks @ $%.2f%n", actualMarksPrice);
 											System.out.printf("Your subtotal is: $%.2f%n", purchaseTotal);
 											System.out.printf("After adding tax, as well as any possible discounts, your total is: $%.2f%n", finalTotal);
 											System.out.println("Please enter the amount you will pay: ");
@@ -277,16 +277,31 @@ public class bookstore {
 										while(userEdit){
 											userRemove = remove.nextLine();
 											if(userRemove.equals("1")){
-												nBooks--;
-												System.out.println("One book removed.");
+												if(nBooks > 0){
+													--nBooks;
+													System.out.println("One book removed. Total books ordered: " + nBooks);
+												}
+												else{
+													System.out.println("You don't have any more books!");
+												}
 											}
 											else if (userRemove.equals("2")){
-												nMarks--;
-												System.out.println("One bookmark removed.");
+												if(nMarks > 0){
+													--nMarks;
+													System.out.println("One bookmark removed. Total bookmarks ordered: " + nMarks);
+												}
+												else{
+													System.out.println("You don't have any more bookmarks!");
+												}
 											}
 											else if (userRemove.equals("3")){
-												nPings--;
-												System.out.println("One painting removed.");
+												if(nPings > 0){
+													--nPings;
+													System.out.println("One painting removed. Total paintings ordered: " + nPings);
+												}
+												else{
+													System.out.println("You don't have any more paintings!");
+												}
 											}
 											else if (userRemove.equals("4")){
 												userEdit = false;
@@ -325,7 +340,7 @@ public class bookstore {
 	public static int bookWorm(){  //i avoided methods for some reason but I at last found use for one with the bonus
 		int cardHolder;
 		Scanner worm = new Scanner(System.in);
-		System.out.println("Do you have a Bookworm Card? Type 1 for yes and 2 for no");
+		System.out.println("Do you have a Bookworm Card? Type 1 for yes and any other key for no.");
 		cardHolder = worm.nextInt();
 		return cardHolder;
 	}
