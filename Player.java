@@ -15,8 +15,4 @@ public class Player {
 		handsWon = playerHandsWon;
 	}
 	
-	public static void main(String[] args){
-		
-		
-	}
 }
