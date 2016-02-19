@@ -2,37 +2,39 @@ import java.io.*;
 import java.util.*;
 
 public class Blackjack {
-	public static void main(String[] args) throws IOException { //*******what i'm working on so far: file system + check movie class from 0007 to see how objects and classes work in a real example
+	public static void main(String[] args) throws IOException { 
 		Scanner usersName = new Scanner(System.in); //what is meant by how random generated cards are stored?
 		Scanner yn = new Scanner(System.in);
 		Scanner betamt = new Scanner(System.in);
 		String responsePlay = "";
-		String name = "";
 		String responseBet = "";
-		double responseBetConverted; //Jan 13th: most recent problem is getting it to make a new file if I didnt have a Blerg.txt to begin with etc
-		double money = 100.00;
-		int handsPlayed = 0;
-		int handsWon = 0;
+		double responseBetConverted; 
 		boolean newP = true;
 		boolean r2p = true;
 		boolean bet = true;
 		boolean goodBet = false;
 		Random rnd = new Random();
+		Random card = new Random();
+		
 		
 		System.out.println("I N F I N I T E - B L A C K J A C K  ©2016");
 		
 		while(newP){
 			System.out.println("Enter your name to begin!");
-			name = usersName.nextLine();
-			Player user = new Player(name, money, handsPlayed, handsWon);
+			Player.name = usersName.nextLine();
+			Player user = new Player(); //create object
+			Player.setName(Player.name);
+			Player.setMoney(Player.money);
+			Player.setPlayed(Player.handsPlayed);
+			Player.setWon(Player.handsWon);
 			
-			if(isAlphabet(name)){
+			if(isAlphabet(Player.name)){
 				newP = false; //after this line I probably want another if/try where it checks for an old user
 				System.out.println("Thanks!");
-				if(!Player.f.exists()){  
-					Player.writePlayer(user);
-				}
-				Player.printPlayer(user);
+				 
+				Player.writePlayer(user); //overwrites old data and creates new player if need be
+				Player.printPlayer(user); //prints out player info
+				
 				while(r2p){
 					System.out.println("Ready to play? Enter Y/N");
 					responsePlay = yn.nextLine();
@@ -44,8 +46,12 @@ public class Blackjack {
 							if(isNumber(responseBet)){
 								bet = false;
 								responseBetConverted = Double.parseDouble(responseBet);
-								Player.money = (money - responseBetConverted);
+								Player.money = (Player.money - responseBetConverted);
+								Player.writePlayer(user);
 								Player.printPlayer(user);
+								
+								System.out.println("YOUR CARDS: ");
+								
 							}
 							else{
 								System.out.println("That's not an appropriate monetary amount!");
