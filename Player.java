@@ -3,12 +3,13 @@ import java.util.*;
 
 public class Player {
 	
+	static boolean notNew = true;
 	static String name = "";
 	static double money = 100.00;
 	static int handsPlayed = 0;
 	static int handsWon = 0;
-	static File f = new File("C:\\Users\\Alan\\GitHub\\401\\" + name + ".txt");
-	
+	static String fileName = name + ".txt";
+	static File f = new File(fileName);
 	public Player(String playerName, double playerMoney, int playerHandsPlayed, int playerHandsWon){
 		name = playerName;
 		money = playerMoney;
@@ -36,8 +37,18 @@ public class Player {
 		handsWon = w;
 	}
 	
+	public static void existingPlayer(Player user){
+		try{
+			printPlayer(user);
+			notNew = false;
+		}
+		catch(FileNotFoundException f){
+			System.out.println("New player detected!");
+		}
+	}
+	
 	public static void printPlayer(Player user) throws FileNotFoundException{ //print player info to them
-		f = new File("C:\\Users\\Alan\\GitHub\\401\\" + name + ".txt");
+		f = new File(name + ".txt");
 		Scanner read = new Scanner(f);
 		
 		
@@ -45,13 +56,13 @@ public class Player {
 		
 		
 			name = read.nextLine();
-			System.out.println("Name: " + name);
+			System.out.printf("Name: %23s\n", name);
 			money = Double.parseDouble(read.nextLine());
-			System.out.println("Total Funds: $" + money);
+			System.out.printf("Total Funds: $%15.2f\n", money);
 			handsPlayed = Integer.parseInt(read.nextLine());
-			System.out.println("Total Hands Played: " + handsPlayed);
+			System.out.printf("Total Hands Played: %9d\n", handsPlayed);
 			handsWon = Integer.parseInt(read.nextLine());
-			System.out.println("Total Hands Won: " + handsWon);
+			System.out.printf("Total Hands Won: %12d\n", handsWon);
 		
 		read.close();
 		
@@ -59,7 +70,7 @@ public class Player {
 	public static void writePlayer (Player user) throws IOException{ //write a new player in, only for making a new profile
 		f.createNewFile();
 	
-		PrintWriter log = new PrintWriter("C:\\Users\\Alan\\GitHub\\401\\" + name + ".txt");
+		PrintWriter log = new PrintWriter(name + ".txt");
 		log.println(name);
 		log.println(money);
 		log.println(handsPlayed);
