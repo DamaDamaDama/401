@@ -52,228 +52,285 @@ public class Blackjack {
 							System.out.println("How much will you be betting?");
 							responseBet = betamt.nextLine();
 							if(isNumber(responseBet)){
-								bet = false;
-								hsq = true;
 								responseBetConverted = Double.parseDouble(responseBet);
-								Player.money = (Player.money - responseBetConverted); //take away money because he spent it on a bet
-								Player.writePlayer(user);
-								Player.printPlayer(user);
-								
-								Card.cardTotal = 0;
-								Card.acesCounter = 0;
-								
-								System.out.println("YOUR CARDS: ");
-								Card newCard = new Card();
-								Card.dealtCards = card.nextInt(51) + 1;
-								Card.assignRNG(newCard);
-								Card.setCard(Card.card);
-								Card.setValue(Card.value);
-								Card.printCards(newCard);
-								
-								Card.dealtCards = card.nextInt(51) + 1;
-								Card.assignRNG(newCard);
-								Card.setCard(Card.card);
-								Card.setValue(Card.value);
-								Card.printCards(newCard);
-								
-								while(hsq){
-									if(Card.checkBust()){
-										r2p = true;
-										hsq = false;
-										Player.handsPlayed++;
-										Card.acesCounter = 0;
-										break;
-									}
-									System.out.println("[H]it or [S]tay?");
-									hsResponse = hs.nextLine();
-									
-									if(hsResponse.equalsIgnoreCase("h") || hsResponse.equals("hit")){
-										
-										Card.dealtCards = card.nextInt(51) + 1;
-										Card.assignRNG(newCard);
-										Card.setCard(Card.card);
-										Card.setValue(Card.value);
-										Card.printCards(newCard);
-										
-									}
-									else if(hsResponse.equalsIgnoreCase("s") || hsResponse.equalsIgnoreCase("stay")){
-										hsq = false;
-										
-										pCardTotal = Card.cardTotal;
-										pAces = Card.acesCounter;
-										Card.cardTotal = 0;
-										Card.acesCounter = 0;
-										
-										System.out.println("THE HOUSE'S CARDS: ");
-									
-										Card.dealtCards = card.nextInt(51) + 1;
-										Card.assignRNG(newCard);
-										Card.setCard(Card.card);
-										Card.setValue(Card.value);
-										Card.printCards(newCard);
-										
-										Card.dealtCards = card.nextInt(51) + 1;
-										Card.assignRNG(newCard);
-										Card.setCard(Card.card);
-										Card.setValue(Card.value);
-										Card.printCards(newCard);
-										
-										while(dQ){
-											if((Card.cardTotal > 17 && Card.cardTotal <= 21) || (Card.cardTotal == 17 && Card.acesCounter == 0)){
-												dQ = false;
-												System.out.println("The dealer stays.");
-												if((pCardTotal - pAces) + (11 * pAces) > 21){
-													for(int i = 1; i <= pAces; i++){ //aces incrementer, used to test aces one by one
-														if((pCardTotal - (pAces - i)) + (11 * (pAces - i)) > 21){
-															//just loop back
-														}
-														else{
-															pCardTotal = (pCardTotal - (pAces - i)) + (11 * (pAces - i));
-															if((Card.cardTotal - Card.acesCounter) + (11 * Card.acesCounter) > 21){
-																for(int i2 = 1; i2 <= Card.acesCounter; i2++){
-																	if((Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2)) > 21){
+								if((Player.money - responseBetConverted) >= 0.00){
+									bet = false;
+									hsq = true;
+									Player.money = (Player.money - responseBetConverted); //take away money because he spent it on a bet
+									Player.writePlayer(user);
+									Player.printPlayer(user);
 
-																	}
-																	else{
-																		Card.cardTotal = (Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2));
-																		if(pCardTotal > Card.cardTotal){
-																			System.out.println("The player wins the round!");
-																			if(pCardTotal == 21){
-																				Player.money = (Player.money + (responseBetConverted * 2.5));
+									Card.cardTotal = 0;
+									Card.acesCounter = 0;
+
+									System.out.println("YOUR CARDS: ");
+									Card newCard = new Card();
+									Card.dealtCards = card.nextInt(51) + 1;
+									Card.assignRNG(newCard);
+									Card.setCard(Card.card);
+									Card.setValue(Card.value);
+									Card.printCards(newCard);
+
+									Card.dealtCards = card.nextInt(51) + 1;
+									Card.assignRNG(newCard);
+									Card.setCard(Card.card);
+									Card.setValue(Card.value);
+									Card.printCards(newCard);
+
+									while(hsq){
+										if(Card.checkBust()){
+											r2p = true;
+											hsq = false;
+											Player.handsPlayed++;
+											Card.acesCounter = 0;
+											break;
+										}
+										System.out.println("[H]it or [S]tay?");
+										hsResponse = hs.nextLine();
+
+										if(hsResponse.equalsIgnoreCase("h") || hsResponse.equals("hit")){
+
+											Card.dealtCards = card.nextInt(51) + 1;
+											Card.assignRNG(newCard);
+											Card.setCard(Card.card);
+											Card.setValue(Card.value);
+											Card.printCards(newCard);
+
+										}
+										else if(hsResponse.equalsIgnoreCase("s") || hsResponse.equalsIgnoreCase("stay")){
+											hsq = false;
+
+											pCardTotal = Card.cardTotal;
+											pAces = Card.acesCounter;
+											Card.cardTotal = 0;
+											Card.acesCounter = 0;
+
+											System.out.println("THE HOUSE'S CARDS: ");
+
+											Card.dealtCards = card.nextInt(51) + 1;
+											Card.assignRNG(newCard);
+											Card.setCard(Card.card);
+											Card.setValue(Card.value);
+											Card.printCards(newCard);
+
+											Card.dealtCards = card.nextInt(51) + 1;
+											Card.assignRNG(newCard);
+											Card.setCard(Card.card);
+											Card.setValue(Card.value);
+											Card.printCards(newCard);
+
+											while(dQ){
+												if((Card.cardTotal > 17 && Card.cardTotal <= 21) || (Card.cardTotal == 17 && Card.acesCounter == 0)){
+													dQ = false;
+													System.out.println("The dealer stays.");
+													if((pCardTotal - pAces) + (11 * pAces) > 21){
+														for(int i = 1; i <= pAces; i++){ //aces incrementer, used to test aces one by one
+															if((pCardTotal - (pAces - i)) + (11 * (pAces - i)) > 21){
+																//just loop back
+															}
+															else{
+																pCardTotal = (pCardTotal - (pAces - i)) + (11 * (pAces - i));
+																if((Card.cardTotal - Card.acesCounter) + (11 * Card.acesCounter) > 21){
+																	for(int i2 = 1; i2 <= Card.acesCounter; i2++){
+																		if((Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2)) > 21){
+
+																		}
+																		else{
+																			Card.cardTotal = (Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2));
+																			if(pCardTotal > Card.cardTotal){
+																				System.out.println("The player wins the round!");
+																				if(pCardTotal == 21){
+																					Player.money = (Player.money + (responseBetConverted * 2.5));
+																					Player.handsPlayed++;
+																					Player.handsWon++;
+																					Player.writePlayer(user);
+																					r2p = true;
+																				}
+																				else{
+																					Player.money = (Player.money + (responseBetConverted * 2));
+																					Player.handsPlayed++;
+																					Player.handsWon++;
+																					Player.writePlayer(user);
+																					r2p = true;
+																				}
+																			}
+																			else if(pCardTotal < Card.cardTotal){
+																				System.out.println("The dealer wins the round!");
 																				Player.handsPlayed++;
-																				Player.handsWon++;
+																				Player.writePlayer(user);
 																				r2p = true;
 																			}
 																			else{
-																				Player.money = (Player.money + (responseBetConverted * 2));
+																				System.out.println("PUSH! Player and dealer have the same card totals.");
+																				Player.money = (Player.money + responseBetConverted);
 																				Player.handsPlayed++;
-																				Player.handsWon++;
+																				Player.writePlayer(user);
 																				r2p = true;
 																			}
 																		}
-																		else if(pCardTotal < Card.cardTotal){
-																			System.out.println("The dealer wins the round!");
+																	}
+
+																}
+															}
+														}
+
+													}
+													else{
+														pCardTotal = (pCardTotal - pAces) + (11 * pAces);
+														if((Card.cardTotal - Card.acesCounter) + (11 * Card.acesCounter) > 21){
+															for(int i2 = 1; i2 <= Card.acesCounter; i2++){
+																if((Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2)) > 21){
+
+																}
+																else{
+																	Card.cardTotal = (Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2));
+																	if(pCardTotal > Card.cardTotal){
+																		System.out.println("The player wins the round!");
+																		if(pCardTotal == 21){
+																			System.out.println("Blackjack! Bonus earnings!");
+																			Player.money = (Player.money + (responseBetConverted * 2.5));
 																			Player.handsPlayed++;
+																			Player.handsWon++;
+																			Player.writePlayer(user);
 																			r2p = true;
 																		}
 																		else{
-																			System.out.println("PUSH! Player and dealer have the same card totals.");
-																			Player.money = (Player.money + responseBetConverted);
+																			Player.money = (Player.money + (responseBetConverted * 2));
 																			Player.handsPlayed++;
+																			Player.handsWon++;
+																			Player.writePlayer(user);
 																			r2p = true;
 																		}
 																	}
-																}
-
-															}
-														}
-													}
-
-												}
-												else{
-													pCardTotal = (pCardTotal - pAces) + (11 * pAces);
-													if((Card.cardTotal - Card.acesCounter) + (11 * Card.acesCounter) > 21){
-														for(int i2 = 1; i2 <= Card.acesCounter; i2++){
-															if((Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2)) > 21){
-
-															}
-															else{
-																Card.cardTotal = (Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2));
-																if(pCardTotal > Card.cardTotal){
-																	System.out.println("The player wins the round!");
-																	if(pCardTotal == 21){
-																		Player.money = (Player.money + (responseBetConverted * 2.5));
+																	else if(pCardTotal < Card.cardTotal){
+																		System.out.println("The dealer wins the round!");
 																		Player.handsPlayed++;
-																		Player.handsWon++;
+																		Player.writePlayer(user);
 																		r2p = true;
 																	}
 																	else{
-																		Player.money = (Player.money + (responseBetConverted * 2));
+																		System.out.println("PUSH! Player and dealer have the same card totals.");
+																		Player.money = (Player.money + responseBetConverted);
 																		Player.handsPlayed++;
-																		Player.handsWon++;
+																		Player.writePlayer(user);
 																		r2p = true;
 																	}
 																}
-																else if(pCardTotal < Card.cardTotal){
-																	System.out.println("The dealer wins the round!");
+															}
+
+														}
+														else{
+															Card.cardTotal = (Card.cardTotal - Card.acesCounter) + (11 * Card.acesCounter);
+															if(pCardTotal > Card.cardTotal){
+																System.out.println("The player wins the round!");
+																if(pCardTotal == 21){
+																	System.out.println("Blackjack! Bonus earnings!");
+																	Player.money = (Player.money + (responseBetConverted * 2.5));
 																	Player.handsPlayed++;
+																	Player.handsWon++;
+																	Player.writePlayer(user);
 																	r2p = true;
 																}
 																else{
-																	System.out.println("PUSH! Player and dealer have the same card totals.");
-																	Player.money = (Player.money + responseBetConverted);
+																	Player.money = (Player.money + (responseBetConverted * 2));
 																	Player.handsPlayed++;
+																	Player.handsWon++;
+																	Player.writePlayer(user);
 																	r2p = true;
 																}
 															}
+															else if(pCardTotal < Card.cardTotal){
+																System.out.println("The dealer wins the round!");
+																Player.handsPlayed++;
+																Player.writePlayer(user);
+																r2p = true;
+															}
+															else{
+																System.out.println("PUSH! Player and dealer have the same card totals.");
+																Player.money = (Player.money + responseBetConverted);
+																Player.handsPlayed++;
+																Player.writePlayer(user);
+																r2p = true;
+															}
 														}
-
 													}
-												}
 
-											}
-											else if(Card.cardTotal == 17 && Card.acesCounter > 0){
-												if(Card.checkBust()){
+												}
+												else if(Card.cardTotal == 17 && Card.acesCounter > 0){
 													hsq = false;
 													dQ = false;
-													Player.handsPlayed++;
-													Player.handsWon++;
-													System.out.println("The player wins the round!");
-													if(pCardTotal == 21){
-														Player.money = (Player.money + (responseBetConverted * 2.5));
-														
-														r2p = true;
+													if(Card.checkBustHouse()){
+														Player.handsPlayed++;
+														Player.handsWon++;
+														System.out.println("The player wins the round!");
+														if(pCardTotal == 21){
+															System.out.println("Blackjack! Bonus earnings!");
+															Player.money = (Player.money + (responseBetConverted * 2.5));
+															Player.writePlayer(user);
+															r2p = true;
+														}
+														else{
+															Player.money = (Player.money + (responseBetConverted * 2));
+															Player.writePlayer(user);
+															r2p = true;
+														}
+														break;
 													}
-													else{
-														Player.money = (Player.money + (responseBetConverted * 2));
-														r2p = true;
-													}
-													break;
+													System.out.println("The house hits.");
+													Card.dealtCards = card.nextInt(51) + 1;
+													Card.assignRNG(newCard);
+													Card.setCard(Card.card);
+													Card.setValue(Card.value);
+													Card.printCards(newCard);
+													dQ = true;
 												}
-												System.out.println("The house hits.");
-												Card.dealtCards = card.nextInt(51) + 1;
-												Card.assignRNG(newCard);
-												Card.setCard(Card.card);
-												Card.setValue(Card.value);
-												Card.printCards(newCard);
-											}
-											else{
-												if(Card.checkBust()){
+												else{
 													hsq = false;
 													dQ = false;
-													Player.handsPlayed++;
-													Player.handsWon++;
-													System.out.println("The player wins the round!");
-													if(pCardTotal == 21){
-														Player.money = (Player.money + (responseBetConverted * 2.5));
-														r2p = true;
+													if(Card.checkBustHouse()){
+														Player.handsPlayed++;
+														Player.handsWon++;
+														System.out.println("The player wins the round!");
+														if(pCardTotal == 21){
+															System.out.println("Blackjack! Bonus earnings!");
+															Player.money = (Player.money + (responseBetConverted * 2.5));
+															Player.writePlayer(user);
+															r2p = true;
+														}
+														else{
+															Player.money = (Player.money + (responseBetConverted * 2));
+															Player.writePlayer(user);
+															r2p = true;
+														}
+														break;
 													}
-													else{
-														Player.money = (Player.money + (responseBetConverted * 2));
-														r2p = true;
-													}
-													break;
+													System.out.println("The house hits.");
+													Card.dealtCards = card.nextInt(51) + 1;
+													Card.assignRNG(newCard);
+													Card.setCard(Card.card);
+													Card.setValue(Card.value);
+													Card.printCards(newCard);
+													dQ = true;
 												}
-												System.out.println("The house hits.");
-												Card.dealtCards = card.nextInt(51) + 1;
-												Card.assignRNG(newCard);
-												Card.setCard(Card.card);
-												Card.setValue(Card.value);
-												Card.printCards(newCard);
 											}
 										}
+										else{
+											System.out.println("Invalid input!");
+										}
+
 									}
-									else{
-										System.out.println("Invalid input!");
-									}
-										
+
+
 								}
-								
-								
-							}
+								else{
+									System.out.println("You do not have the sufficient funds to make that bet.");
+								}
+							}	
 							else{
 								System.out.println("That's not an appropriate monetary amount!");
 							}
+								
+							
 						}
 							
 					}

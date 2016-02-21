@@ -48,6 +48,16 @@ public class Card {
 		}
 	}
 	
+	public static boolean checkBustHouse(){ //modified the above method to be more fitting for dealer
+		if(cardTotal > 21){
+			System.out.println("The house busts!");
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
 	public static void assignRNG(Card newCard){
 		switch (dealtCards){
 			case 1: card = "Ad"; value = 1; acesCounter++; break;
