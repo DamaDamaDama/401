@@ -51,18 +51,17 @@ public class Player {
 		f = new File(name + ".txt");
 		Scanner read = new Scanner(f);
 		
-		
 		System.out.println("Your player information, " + name + ":");
 		
 		
 			name = read.nextLine();
-			System.out.printf("Name: %23s\n", name);
+			System.out.printf("Name: %24s\n", name);
 			money = Double.parseDouble(read.nextLine());
-			System.out.printf("Total Funds: $%15.2f\n", money);
+			System.out.printf("Total Funds in USD: %10.2f\n", money);
 			handsPlayed = Integer.parseInt(read.nextLine());
-			System.out.printf("Total Hands Played: %9d\n", handsPlayed);
+			System.out.printf("Total Hands Played: %10d\n", handsPlayed);
 			handsWon = Integer.parseInt(read.nextLine());
-			System.out.printf("Total Hands Won: %12d\n", handsWon);
+			System.out.printf("Total Hands Won: %13d\n", handsWon);
 		
 		read.close();
 		

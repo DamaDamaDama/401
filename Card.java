@@ -26,7 +26,7 @@ public class Card {
 	}
 	
 	public static void printCards(Card c){
-		System.out.println(card);
+		System.out.println("Card dealt: " + card);
 		cardTotal += value;
 	}
 	
