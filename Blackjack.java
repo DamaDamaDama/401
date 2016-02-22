@@ -24,7 +24,7 @@ public class Blackjack {
 		Random card = new Random();
 		
 		
-		System.out.println((char)27 + "[32mW E L C O M E - T O - I N F I N I T E - B L A C K J A C K" + (char)27 + "[37m"); //found this online, changes cmd text color
+		System.out.println((char)27 + "[32m W E L C O M E - T O - I N F I N I T E - B L A C K J A C K" + (char)27 + "[37m"); //found this online, changes cmd text color
 		
 		while(newP){
 			System.out.println("Enter your name to begin!");
