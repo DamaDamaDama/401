@@ -310,20 +310,53 @@ public class Blackjack {
 													if(Card.checkBustHouse()){
 														Player.handsPlayed++;
 														Player.handsWon++;
-														if(pCardTotal == 21){
-															System.out.printf("The player wins the round! Winnings: %.2f\n", (responseBetConverted * 2.5));
-															System.out.println((char)27 + "[33mBlackjack! Bonus earnings!" + (char)27 + "[37m");
-															Player.money = (Player.money + (responseBetConverted * 2.5));
-															Player.writePlayer(user);
-															r2p = true;
-														}
-														else{
-															System.out.printf("The player wins the round! Winnings: %.2f\n", (responseBetConverted * 2.0));
-															Player.money = (Player.money + (responseBetConverted * 2.0));
-															Player.writePlayer(user);
-															r2p = true;
-														}
-														break;
+															if((pCardTotal - pAces) + (11 * pAces) > 21){
+																for(i = 1; i <= pAces;){ //aces incrementer, used to test aces one by one
+																	if((pCardTotal - (pAces - i)) + (11 * (pAces - i)) > 21){
+																		i++;
+																	}
+																	else{
+																		pCardTotal = (pCardTotal - (pAces - i)) + (11 * (pAces - i));
+																		
+																		if((Card.cardTotal - Card.acesCounter) + (11 * Card.acesCounter) > 21){
+																			for(i2 = 1; i2 <= Card.acesCounter;){
+																				if((Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2)) > 21){
+																					i2++;
+																				}
+																				else{
+																					Card.cardTotal = (Card.cardTotal - (Card.acesCounter - i2)) + (11 * (Card.acesCounter - i2));
+																					if(pCardTotal > Card.cardTotal){
+																						if(pCardTotal == 21){
+																							System.out.printf("The player wins the round! Winnings: %.2f\n", (responseBetConverted * 2.5));
+																							System.out.println((char)27 + "[33mBlackjack! Bonus earnings!" + (char)27 + "[37m");
+																							Player.money = (Player.money + (responseBetConverted * 2.5));
+																							Player.handsPlayed++;
+																							Player.handsWon++;
+																							Player.writePlayer(user);
+																							r2p = true;
+																							i2 = 999999; //don't want an infinite for loop
+																						}
+																						else{
+																							System.out.printf("The player wins the round! Winnings: %.2f\n", (responseBetConverted * 2.0));
+																							Player.money = (Player.money + (responseBetConverted * 2.0));
+																							Player.handsPlayed++;
+																							Player.handsWon++;
+																							Player.writePlayer(user);
+																							r2p = true;
+																							i2 = 999999;
+																						}																		}
+																					
+																				}
+																			}
+																			
+																			
+																		}
+																	}
+																}
+																
+
+															}
+															
 													}
 													System.out.println("The house hits.");
 													Card.dealtCards = card.nextInt(51) + 1;
