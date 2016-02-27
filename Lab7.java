@@ -31,6 +31,7 @@ public class Lab7 {
 		
 		
 		while(initQ){
+			System.out.println(universe);
 			System.out.println("[Q]uit, [A]dvance world, [S]ave world?");
 			response = input.nextLine();
 			if(response.equalsIgnoreCase("Q") || response.equalsIgnoreCase("QUIT")){
@@ -38,19 +39,36 @@ public class Lab7 {
 				System.exit(0);
 			}
 			else if(response.equalsIgnoreCase("A") || response.equalsIgnoreCase("ADVANCE")){
-				for(int i : universe){
-					if(universe[i] == bNum){
-						universe[i] = cNum;
+				for(int i = universe.length - 1; i > -1; i--){
+					if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] != carrot){
+						if(universe[i] == aNum && universe[i] == universe[universe.length - 1]){
+							
+						}
+						else{
+							universe[i+1] = universe[i];
+							universe[i] = nuthin;
+						}
+						
 					}
-					else if(universe[i] == cNum){
+					if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] == carrot){
+						if(universe[i] == aNum && universe[i] == universe[universe.length - 1]){
+							
+						}
+						else{
+							universe[i+1] = bNum;
+							universe[i] = nuthin;
+						}
+					}
+					if(universe[i] == aNum && universe[i+1] == aNum && universe[i+1] != carrot){
+						if(i < universe.length - 1){
+							universe[i] = aNum;
+						}
+					}
+					if(universe[i] == cNum){
 						universe[i] = aNum;
 					}
-					else if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] != carrot){
-						universe[i+1] = universe[i];
-						universe[i] = nuthin;
-					}
-					else if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] == carrot){
-						universe[i+1] = bNum;
+					if(universe[i] == bNum){
+						universe[i] = cNum;
 					}
 				}
 				System.out.println(universe);

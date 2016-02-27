@@ -1,4 +1,4 @@
-0....^.0..^...0^....^0...
-Babies: 4
-Children: 0
-Adults: 0
+........2....2.....21...2
+Babies: 0
+Children: 1
+Adults: 3
