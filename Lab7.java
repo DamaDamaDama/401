@@ -40,30 +40,24 @@ public class Lab7 {
 			}
 			else if(response.equalsIgnoreCase("A") || response.equalsIgnoreCase("ADVANCE")){
 				for(int i = universe.length - 1; i > -1; i--){
-					if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] != carrot){
-						if(universe[i] == aNum && universe[i] == universe[universe.length - 1]){
-							
+						try{
+							if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] != carrot){
+								universe[i+1] = universe[i];
+								universe[i] = nuthin;
+							}
+							if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] == carrot){
+								universe[i+1] = bNum;
+								universe[i] = nuthin;
+							}
+							if(universe[i] == aNum && universe[i+1] == aNum && universe[i+1] != carrot){
+								if(i < universe.length - 1){
+									universe[i] = aNum;
+								}
+							}
 						}
-						else{
-							universe[i+1] = universe[i];
-							universe[i] = nuthin;
-						}
+						catch(ArrayIndexOutOfBoundsException aioobe){
 						
-					}
-					if(universe[i] == aNum && universe[i+1] != aNum && universe[i+1] == carrot){
-						if(universe[i] == aNum && universe[i] == universe[universe.length - 1]){
-							
 						}
-						else{
-							universe[i+1] = bNum;
-							universe[i] = nuthin;
-						}
-					}
-					if(universe[i] == aNum && universe[i+1] == aNum && universe[i+1] != carrot){
-						if(i < universe.length - 1){
-							universe[i] = aNum;
-						}
-					}
 					if(universe[i] == cNum){
 						universe[i] = aNum;
 					}
@@ -71,10 +65,11 @@ public class Lab7 {
 						universe[i] = cNum;
 					}
 				}
-				System.out.println(universe);
+			
 			}
 			else if(response.equalsIgnoreCase("S") || response.equalsIgnoreCase("SAVE")){
 				f.createNewFile();
+				System.out.println("File saved to universe.txt");
 				
 				PrintWriter log = new PrintWriter("universe.txt");
 				for(int o = 0; o < universe.length - 1; o++){
