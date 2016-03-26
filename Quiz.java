@@ -16,6 +16,7 @@ public class Quiz {
 		int qCounter = 0;
 		boolean testing = true;
 		boolean sameProb = true;
+		boolean results = true;
 		
 		////////////////////////////////////////////////////////////////
 		
@@ -26,7 +27,7 @@ public class Quiz {
 		readQuiz();
 		printQuiz();
 		
-		while(testing){
+		while(testing){ //this section of code is for taking the quiz
 			sameProb = true;
 			System.out.println("Question #" + qCounter);
 			try{
@@ -35,6 +36,7 @@ public class Quiz {
 			catch(Exception e){
 				testing = false;
 				System.out.println("That concludes all of the questions.");
+				break;
 			}
 			System.out.println("Answers: ");
 			Question.printAnswers(questions.get(qCounter));
@@ -56,10 +58,10 @@ public class Quiz {
 				}
 			}
 		}
+		while(results){ //this section of code is for displaying the results back
+			
+		}
 		
-		//question, the answer, the correct one, # tries, # correct
-		
-		//questions.add(q1); example
 	}
 	
 	public static void updateQuiz() throws IOException{ //enter stuff into a quiz file
@@ -105,17 +107,17 @@ public class Quiz {
 		int attempts = 0;
 		int nCorrect = 0;
 		
-		while((line = read.next()).contains("")){
+		while(read.hasNextLine()){
 			//if(read.nextLine().contains("?")){
-				question = line;
+				question = read.nextLine();
 				nAns = Integer.parseInt(read.nextLine());
 				String[] ans = new String[nAns];
 				for(int i = 0; i < nAns; i++){
 					ans[i] = read.nextLine();
 				}
-				cAns = read.nextInt();
-				attempts = read.nextInt();
-				nCorrect = read.nextInt();
+				cAns = Integer.parseInt(read.nextLine());
+				attempts = Integer.parseInt(read.nextLine());
+				nCorrect = Integer.parseInt(read.nextLine());
 				
 				questions.add(new Question(question, ans, cAns, attempts, nCorrect));
 			//}
