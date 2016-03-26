@@ -10,8 +10,14 @@ public class Quiz {
 	public static void main(String[] args) throws IOException{
 		args[0] = "quiz.txt";
 		Scanner answer = new Scanner(System.in);
+		String userAnswer = "";
+		int userAnswerConv = 0;
 		String[] qAns = new String[3];
 		int qCounter = 0;
+		boolean testing = true;
+		boolean sameProb = true;
+		
+		////////////////////////////////////////////////////////////////
 		
 		System.out.println();
 		System.out.println("Welcome to Quiz by Alan Munirji");
@@ -20,13 +26,37 @@ public class Quiz {
 		readQuiz();
 		printQuiz();
 		
-		System.out.println("Question #" + qCounter);
-		System.out.println(Question.printQuestion(questions.get(0)));
-		System.out.println("Answers: ");
-		Question.printAnswers(questions.get(0));
+		while(testing){
+			sameProb = true;
+			System.out.println("Question #" + qCounter);
+			try{
+				System.out.println(Question.printQuestion(questions.get(qCounter)));
+			}
+			catch(Exception e){
+				testing = false;
+				System.out.println("That concludes all of the questions.");
+			}
+			System.out.println("Answers: ");
+			Question.printAnswers(questions.get(qCounter));
+			while(sameProb){
+				userAnswer = answer.nextLine();
+				try{
+					userAnswerConv = Integer.parseInt(userAnswer);
+					if(userAnswerConv < 0 || userAnswerConv > Question.nAnswers(questions.get(0))){
+						System.out.println("Inappropriate response. Please enter an appropriate number");
+					}
+					else{
+						System.out.println("Your response has been recorded.");
+						qCounter++;
+						sameProb = false;
+					}
+				}
+				catch(NumberFormatException NFE){
+					System.out.println("Inappropriate response. Please enter an appropriate number");
+				}
+			}
+		}
 		
-		
-		//Question q1 = new Question("qwe", qAns, 2, 2, 3); example of question object I would use for one answered question.
 		//question, the answer, the correct one, # tries, # correct
 		
 		//questions.add(q1); example
@@ -75,9 +105,9 @@ public class Quiz {
 		int attempts = 0;
 		int nCorrect = 0;
 		
-		//while(read.hasNextLine()){
+		while((line = read.next()).contains("")){
 			//if(read.nextLine().contains("?")){
-				question = read.nextLine();
+				question = line;
 				nAns = Integer.parseInt(read.nextLine());
 				String[] ans = new String[nAns];
 				for(int i = 0; i < nAns; i++){
@@ -89,7 +119,7 @@ public class Quiz {
 				
 				questions.add(new Question(question, ans, cAns, attempts, nCorrect));
 			//}
-		//}
+		}
 		read.close();
 		
 	} 
