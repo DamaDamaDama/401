@@ -29,11 +29,11 @@ public class Quiz {
 		
 		while(testing){ //this section of code is for taking the quiz
 			sameProb = true;
-			System.out.println("Question #" + qCounter);
-			try{
+			if(qCounter < questions.size()){ 
+				System.out.println("Question #" + qCounter);
 				System.out.println(Question.printQuestion(questions.get(qCounter)));
 			}
-			catch(Exception e){
+			else{
 				testing = false;
 				System.out.println("That concludes all of the questions.");
 				break;
@@ -44,7 +44,7 @@ public class Quiz {
 				userAnswer = answer.nextLine();
 				try{
 					userAnswerConv = Integer.parseInt(userAnswer);
-					if(userAnswerConv < 0 || userAnswerConv > Question.nAnswers(questions.get(0))){
+					if(userAnswerConv < 0 || userAnswerConv > Question.nAnswers(questions.get(qCounter))){
 						System.out.println("Inappropriate response. Please enter an appropriate number");
 					}
 					else{
@@ -59,7 +59,7 @@ public class Quiz {
 			}
 		}
 		while(results){ //this section of code is for displaying the results back
-			
+			break;
 		}
 		
 	}
@@ -70,8 +70,6 @@ public class Quiz {
 		PrintWriter log = new PrintWriter("quiz.txt");
 		log.println("test");
 		log.println();
-		log.println();
-		log.println("test with two newlines before");
 		log.close();
 			
 	}
@@ -110,6 +108,7 @@ public class Quiz {
 		while(read.hasNextLine()){
 			//if(read.nextLine().contains("?")){
 				question = read.nextLine();
+				System.out.println("DEBUG ONLY Question being added: " + question);
 				nAns = Integer.parseInt(read.nextLine());
 				String[] ans = new String[nAns];
 				for(int i = 0; i < nAns; i++){
@@ -120,6 +119,8 @@ public class Quiz {
 				nCorrect = Integer.parseInt(read.nextLine());
 				
 				questions.add(new Question(question, ans, cAns, attempts, nCorrect));
+				System.out.println(Question.printQuestion(questions.get(0)));  //wtf??? its ONLY index 0
+
 			//}
 		}
 		read.close();
