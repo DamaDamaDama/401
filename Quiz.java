@@ -12,8 +12,18 @@ public class Quiz {
         Scanner answer = new Scanner(System.in);
         String userAnswer = "";
         int userAnswerConv = 0;
-        String[] qAns = new String[3];
+        int[] qAns = new int[5];
+        int[] qAnsTries = new int[5];
+        int[] qAnsCorrect = new int[5];
         int qCounter = 0;
+        int pCorrectTag = 0; //mark what question was easiest
+        int hCorrectTag = 0; //mark what question was hardest
+        double attempts = 0;
+        double nCorrect = 0;
+        double timesRight = 0;
+        double timesWrong = 0;
+        double pCorrect = 0; //used for easiest question
+        double hCorrect = 100; //used for hardest question
         boolean testing = true;
         boolean sameProb = true;
         boolean results = true;
@@ -23,18 +33,20 @@ public class Quiz {
         System.out.println();
         System.out.println("Welcome to Quiz by Alan Munirji");
         System.out.println();
- 
+
         readQuiz();
-        printQuiz();
+        //printQuiz(); debugging
  
         while(testing){ //this section of code is for taking the quiz
             sameProb = true;
             if(qCounter < questions.size()){
+            	System.out.println("");
                 System.out.println("Question #" + qCounter);
                 System.out.println(questions.get(qCounter).printQuestion());
             }
             else{
                 testing = false;
+                System.out.println("");
                 System.out.println("That concludes all of the questions.");
                 break;
             }
@@ -49,6 +61,7 @@ public class Quiz {
                     }
                     else{
                         System.out.println("Your response has been recorded.");
+                        qAns[qCounter] = userAnswerConv;
                         qCounter++;
                         sameProb = false;
                     }
@@ -58,18 +71,114 @@ public class Quiz {
                 }
             }
         }
+        qCounter = 0;
+        System.out.println("Displaying answers: ");
+        
         while(results){ //this section of code is for displaying the results back
-            break;
-        }
+            
+            System.out.println("Question #" + qCounter + ":");
+            System.out.printf("Correct answer was: %.0f%n", questions.get(qCounter).printCorrect());
+            
+            System.out.println("You answered: ");
+            System.out.println(qAns[qCounter]);
+            
+            double cAnswer = questions.get(qCounter).printCorrect();
+            if(cAnswer == (qAns[qCounter])){
+            	System.out.println("Congratulations you got it right!");
+            	qAnsTries[qCounter]++;
+            	qAnsCorrect[qCounter]++;
+            	qCounter++;
+            	timesRight++;
  
+            	if(qCounter == 5){
+            		results = false;
+            		break;
+            	}
+            }
+            else{
+            	System.out.println("You were wrong!");
+            	qAnsTries[qCounter]++;
+            	qCounter++;
+            	timesWrong++;
+            	if(qCounter == 5){
+            		results = false;
+            		break;
+            	}
+            }
+        }
+        System.out.println("");
+        System.out.println("Overall Performance: ");
+        System.out.printf("Number of times correct: %.0f%n", timesRight);
+        System.out.printf("Number of times incorrect: %.0f%n", timesWrong);
+        System.out.printf("Percentage: %.0f%n", ((timesRight / (timesRight + timesWrong)) * 100));
+        System.out.println("");
+        System.out.println("Cumulative Statistics: ");
+        qCounter = 0;
+        
+        wipeQuiz(); //wipe the old quiz and replace it with itself, but updated cumulative results
+        
+        while(qCounter < 5){
+        	System.out.println("");
+        	System.out.println("Question: " + questions.get(qCounter).printQuestion());
+        	attempts = qAnsTries[qCounter] + questions.get(qCounter).nAttempts();
+        	nCorrect = qAnsCorrect[qCounter] + questions.get(qCounter).nCorrect();
+        	updateQuiz(attempts, nCorrect, questions, qCounter);
+        	System.out.printf("Times tried: %.0f%n", attempts);
+            System.out.printf("Times correct: %.0f%n", nCorrect);
+        	if(pCorrect < ((nCorrect / (nCorrect + attempts)) * 100)){
+        		pCorrect = ((nCorrect / (nCorrect + attempts)) * 100);
+        		pCorrectTag = qCounter;
+        	}
+        	if(hCorrect > ((nCorrect / (nCorrect + attempts)) * 100)){
+        		hCorrect = ((nCorrect / (nCorrect + attempts)) * 100);
+        		hCorrectTag = qCounter;
+        	}
+        	System.out.printf("Percent correct: %.0f%n", ((nCorrect / (nCorrect + attempts)) * 100));
+        	qCounter++;
+        }
+        
+        System.out.println("");
+        System.out.println("Easiest Question: ");
+        System.out.println("Question: " + questions.get(pCorrectTag).printQuestion());
+        attempts = qAnsTries[pCorrectTag] + questions.get(pCorrectTag).nAttempts();
+        nCorrect = qAnsTries[pCorrectTag] + questions.get(pCorrectTag).nCorrect();
+        System.out.printf("Times tried: %.0f%n", attempts);
+        System.out.printf("Times correct: %.0f%n", nCorrect);
+        System.out.printf("Percent correct: %.0f%n", pCorrect);
+    	
+    	System.out.println("");
+    	System.out.println("Hardest Question: ");
+        System.out.println("Question: " + questions.get(hCorrectTag).printQuestion());
+        attempts = qAnsTries[hCorrectTag] + questions.get(hCorrectTag).nAttempts();
+        nCorrect = qAnsTries[hCorrectTag] + questions.get(hCorrectTag).nCorrect();
+        System.out.printf("Times tried: %.0f%n", attempts);
+        System.out.printf("Times correct: %.0f%n", nCorrect);
+        System.out.printf("Percent correct: %.0f%n", hCorrect);
+    }
+    
+    public static void wipeQuiz() throws IOException {
+    	f = new File("quiz.txt");
+    	if(f.delete()){
+    	    f.createNewFile();
+    	}
+    	else{
+    	    System.out.println("um");
+    	}
     }
  
-    public static void updateQuiz() throws IOException{ //enter stuff into a quiz file
-        f.createNewFile();
- 
-        PrintWriter log = new PrintWriter("quiz.txt");
-        log.println("test");
-        log.println();
+    public static void updateQuiz(double attempts, double nCorrect, ArrayList<Question> questions, int qCounter) throws IOException{ //enter stuff into a quiz file
+        
+        FileOutputStream fos = new FileOutputStream("quiz.txt", true);
+        PrintWriter      log  = new PrintWriter(fos);
+        
+        log.println(questions.get(qCounter).printQuestion());
+        log.println(questions.get(qCounter).nAnswers() + 1);
+        for(int i = 0; i < questions.get(qCounter).nAnswers() + 1; i++){
+            log.println(questions.get(qCounter).returnAnswers()[i]);
+        }
+        log.println(questions.get(qCounter).printCorrect());
+        log.println(attempts);
+        log.println(nCorrect);
         log.close();
  
     }
@@ -98,29 +207,26 @@ public class Quiz {
     public static void readQuiz() throws FileNotFoundException{ //read whats on the file, we want to insert it into question objects
         f = new File("quiz.txt");
         Scanner read = new Scanner(f);
-        String line;
         String question;
-        int nAns = 0;
-        int cAns = 0;
-        int attempts = 0;
-        int nCorrect = 0;
+        double nAns = 0;
+        double cAns = 0;
+        double attempts = 0;
+        double nCorrect = 0;
  
         while(read.hasNextLine()){
-            //if(read.nextLine().contains("?")){
                 question = read.nextLine();
-                nAns = Integer.parseInt(read.nextLine());
-                String[] ans = new String[nAns];
+                nAns = Double.parseDouble(read.nextLine());
+                String[] ans = new String[(int) nAns];
                 for(int i = 0; i < nAns; i++){
                     ans[i] = read.nextLine();
                 }
-                cAns = Integer.parseInt(read.nextLine());
-                attempts = Integer.parseInt(read.nextLine());
-                nCorrect = Integer.parseInt(read.nextLine());
+                cAns = Double.parseDouble(read.nextLine());
+                attempts = Double.parseDouble(read.nextLine());
+                nCorrect = Double.parseDouble(read.nextLine());
  
                 questions.add(new Question(question, ans, cAns, attempts, nCorrect));
                 
  
-            //}
         }
         read.close();
  
