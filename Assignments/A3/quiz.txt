@@ -1,0 +1,48 @@
+How many people are featured in the famous Iwo Jima american flag planting picture
+5
+two
+three
+four
+five
+six
+4.0
+0
+0
+How many days in a week?
+3
+five
+six
+seven
+2.0
+0
+0
+Who founded Microsoft?
+5
+Andrew Jackson
+James Buchanan
+Ronald McDonald
+Bill Gates
+I don't know
+3.0
+0
+0
+Who was the leader of Italy at the start of WWII?
+4
+Benito Mussolini
+John Stuart Mill
+John Glenn
+Papa John
+0.0
+0
+0
+Who lives in a pineapple under the sea?
+6
+Manfred von Richthofen
+Stanley Yelnats
+Spongebob Squarepants
+Daniel Tylenol
+Ralf Haier
+Adolf Hitler
+2.0
+0
+0
