@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import Assignments.Player;
+//import Assignments.Player; Eclipse import, not necessary 
  
 public class Quiz {
     static String quiz = "quiz.txt";
