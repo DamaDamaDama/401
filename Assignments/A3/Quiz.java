@@ -144,7 +144,7 @@ public class Quiz {
         System.out.println("Easiest Question: ");
         System.out.println("Question: " + questions.get(pCorrectTag).printQuestion());
         attempts = qAnsTries[pCorrectTag] + questions.get(pCorrectTag).nAttempts();
-        nCorrect = qAnsTries[pCorrectTag] + questions.get(pCorrectTag).nCorrect();
+        nCorrect = qAnsCorrect[pCorrectTag] + questions.get(pCorrectTag).nCorrect();
         System.out.printf("Times tried: %.0f%n", attempts);
         System.out.printf("Times correct: %.0f%n", nCorrect);
         System.out.printf("Percent correct: %.0f%n", pCorrect);
@@ -153,7 +153,7 @@ public class Quiz {
     	System.out.println("Hardest Question: ");
         System.out.println("Question: " + questions.get(hCorrectTag).printQuestion());
         attempts = qAnsTries[hCorrectTag] + questions.get(hCorrectTag).nAttempts();
-        nCorrect = qAnsTries[hCorrectTag] + questions.get(hCorrectTag).nCorrect();
+        nCorrect = qAnsCorrect[hCorrectTag] + questions.get(hCorrectTag).nCorrect();
         System.out.printf("Times tried: %.0f%n", attempts);
         System.out.printf("Times correct: %.0f%n", nCorrect);
         System.out.printf("Percent correct: %.0f%n", (nCorrect / attempts) * 100);
