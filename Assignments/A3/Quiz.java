@@ -3,12 +3,12 @@ import java.util.*;
 //import Assignments.Player; Eclipse import, not necessary 
  
 public class Quiz {
-    static String quiz = "quiz.txt";
+    static String quiz = args[0];
     static File f = new File(quiz);
     static ArrayList<Question> questions = new ArrayList<Question>();
  
     public static void main(String[] args) throws IOException{
-        args[0] = "quiz.txt";
+        
         Scanner answer = new Scanner(System.in);
         String userAnswer = "";
         int userAnswerConv = 0;
@@ -160,7 +160,7 @@ public class Quiz {
     }
     
     public static void wipeQuiz() throws IOException {
-    	f = new File("quiz.txt");
+    	f = new File(quiz);
     	if(f.delete()){
     	    f.createNewFile();
     	}
@@ -171,7 +171,7 @@ public class Quiz {
  
     public static void updateQuiz(double attempts, double nCorrect, ArrayList<Question> questions, int qCounter) throws IOException{ //enter stuff into a quiz file
         
-        FileOutputStream fos = new FileOutputStream("quiz.txt", true);
+        FileOutputStream fos = new FileOutputStream(quiz, true);
         PrintWriter      log  = new PrintWriter(fos);
         
         log.println(questions.get(qCounter).printQuestion());
@@ -187,7 +187,7 @@ public class Quiz {
     }
  
     public static void printQuiz() throws FileNotFoundException{ //print quiz file out
-        f = new File("quiz.txt");
+        f = new File(quiz);
         Scanner read = new Scanner(f);
         boolean more = true;
  
@@ -208,7 +208,7 @@ public class Quiz {
     }
  
     public static void readQuiz() throws FileNotFoundException{ //read whats on the file, we want to insert it into question objects
-        f = new File("quiz.txt");
+        f = new File(quiz);
         Scanner read = new Scanner(f);
         String question;
         double nAns = 0;
