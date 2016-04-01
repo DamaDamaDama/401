@@ -3,12 +3,13 @@ import java.util.*;
 //import Assignments.Player; Eclipse import, not necessary 
  
 public class Quiz {
-    static String quiz = args[0];
-    static File f = new File(quiz);
+    
     static ArrayList<Question> questions = new ArrayList<Question>();
  
     public static void main(String[] args) throws IOException{
         
+    	String quiz = args[0];
+    	File f = new File(quiz);
         Scanner answer = new Scanner(System.in);
         String userAnswer = "";
         int userAnswerConv = 0;
@@ -35,7 +36,7 @@ public class Quiz {
         System.out.println();
         System.out.println("Answer using one of the numbers provided next to each choice.");
 
-        readQuiz();
+        readQuiz(quiz);
         //printQuiz(); debugging
  
         while(testing){ //this section of code is for taking the quiz
@@ -118,14 +119,14 @@ public class Quiz {
         System.out.println("Cumulative Statistics: ");
         qCounter = 0;
         
-        wipeQuiz(); //wipe the old quiz and replace it with itself, but updated cumulative results
+        wipeQuiz(quiz); //wipe the old quiz and replace it with itself, but updated cumulative results
         
         while(qCounter < 5){
         	System.out.println("");
         	System.out.println("Question: " + questions.get(qCounter).printQuestion());
         	attempts = qAnsTries[qCounter] + questions.get(qCounter).nAttempts();
         	nCorrect = qAnsCorrect[qCounter] + questions.get(qCounter).nCorrect();
-        	updateQuiz(attempts, nCorrect, questions, qCounter);
+        	updateQuiz(quiz, attempts, nCorrect, questions, qCounter);
         	System.out.printf("Times tried: %.0f%n", attempts);
             System.out.printf("Times correct: %.0f%n", nCorrect);
         	if(pCorrect < ((nCorrect / attempts) * 100)){
@@ -159,8 +160,8 @@ public class Quiz {
         System.out.printf("Percent correct: %.0f%n", (nCorrect / attempts) * 100);
     }
     
-    public static void wipeQuiz() throws IOException {
-    	f = new File(quiz);
+    public static void wipeQuiz(String quiz) throws IOException {
+    	File f = new File(quiz);
     	if(f.delete()){
     	    f.createNewFile();
     	}
@@ -169,7 +170,7 @@ public class Quiz {
     	}
     }
  
-    public static void updateQuiz(double attempts, double nCorrect, ArrayList<Question> questions, int qCounter) throws IOException{ //enter stuff into a quiz file
+    public static void updateQuiz(String quiz, double attempts, double nCorrect, ArrayList<Question> questions, int qCounter) throws IOException{ //enter stuff into a quiz file
         
         FileOutputStream fos = new FileOutputStream(quiz, true);
         PrintWriter      log  = new PrintWriter(fos);
@@ -186,8 +187,8 @@ public class Quiz {
  
     }
  
-    public static void printQuiz() throws FileNotFoundException{ //print quiz file out
-        f = new File(quiz);
+    public static void printQuiz(String quiz) throws FileNotFoundException{ //print quiz file out
+        File f = new File(quiz);
         Scanner read = new Scanner(f);
         boolean more = true;
  
@@ -207,8 +208,8 @@ public class Quiz {
  
     }
  
-    public static void readQuiz() throws FileNotFoundException{ //read whats on the file, we want to insert it into question objects
-        f = new File(quiz);
+    public static void readQuiz(String quiz) throws FileNotFoundException{ //read whats on the file, we want to insert it into question objects
+        File f = new File(quiz);
         Scanner read = new Scanner(f);
         String question;
         double nAns = 0;
