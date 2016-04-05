@@ -6,16 +6,16 @@ four
 five
 six
 4.0
-0
-0
+2.0
+2.0
 How many days in a week?
 3
 five
 six
 seven
 2.0
-0
-0
+2.0
+2.0
 Who founded Microsoft?
 5
 Andrew Jackson
@@ -24,8 +24,8 @@ Ronald McDonald
 Bill Gates
 I don't know
 3.0
-0
-0
+2.0
+1.0
 Who was the leader of Italy at the start of WWII?
 4
 Benito Mussolini
@@ -33,8 +33,8 @@ John Stuart Mill
 John Glenn
 Papa John
 0.0
-0
-0
+2.0
+0.0
 Who lives in a pineapple under the sea?
 6
 Manfred von Richthofen
@@ -44,5 +44,5 @@ Daniel Tylenol
 Ralf Haier
 Adolf Hitler
 2.0
-0
-0
+2.0
+2.0
