@@ -1,0 +1,4 @@
+66666:Jack Kennedy:false
+12345:Ken M:false
+54321:Finnegan DeGroot:false
+77577:Adolf Hitler:true
