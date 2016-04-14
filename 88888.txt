@@ -1,4 +1,4 @@
-Pasta:0
-Steak:0
-Pizza:0
-Burger:0
+Pasta:1
+Steak:2
+Pizza:5
+Burger:1

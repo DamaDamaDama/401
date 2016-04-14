@@ -20,47 +20,45 @@ public class Assig4 {
 	static ArrayList<JPanel> panels = new ArrayList<JPanel>();
 	static final String voters = "voters.txt";
 	
-	public static void tempFile(){
-		
-	}
-	
 	public static void writeToBallot(String ballotID, String[] options, String votedFor) throws IOException{ //FIX THIS SO THAT IT DOESNT VOTE FOR ALL OPTIONS,
-			
-			try{
+			//try{
 				String individualBallots = ballotID + ".txt";
 				File bID = new File(individualBallots);
 				Scanner read = new Scanner(bID);
 				String choice;
-				File t = new File("tempvoters.txt");
-				PrintWriter log = new PrintWriter(t);
+				File t = new File("tempballots.txt");
 				t.delete();
 				t.createNewFile();
+				PrintWriter log = new PrintWriter(t);
+				int storedLength = options.length; //trying to fix weird bug
+				String[] parts = null;
+				int convertToAddableForm;
 				
-				while(read.hasNextLine()){
+				
+				for(int i = 0; i < storedLength; i++){
 					choice = read.nextLine();
-					for(int i = 0; i < 4; i++){
-						String[] parts = choice.split(":");
-						if(votedFor == parts[0]){
-							log.println(options[i] + ":" + (Integer.parseInt(parts[1]) + 1));
-						}
+					parts = choice.split(":");
+					if(votedFor.equals(parts[0])){
+						convertToAddableForm = Integer.parseInt(parts[1]) + 1;
+						log.println(votedFor + ":" + convertToAddableForm);
+					}
+					else if(!votedFor.equals(parts[0])){
+						log.println(parts[0] + ":" + parts[1]);
 					}
 				}
+				
 				log.close();
 				read.close();
 				bID.delete();
 				t.renameTo(bID); //safe file system
-				
-			} 
-			catch(Exception e){
-				return;
-			}
-			
-        
+			//} 
+			//catch(Exception e){
+				//return;
+			//}
 	}
 	
 	public static void writeToVoter(String v, String id){
 		try{
-			ArrayList<String[]> parts = new ArrayList<String[]>();
 			File f = new File(v);
 			File t = new File("tempvoters.txt");
 			t.delete();
@@ -69,20 +67,20 @@ public class Assig4 {
 			
 			Scanner read = new Scanner(f);
 			while(read.hasNextLine()){
-				String[] line = null;
+				String[] parts = null;
 				if(read.hasNextLine()){
-					line = read.nextLine().trim().split(":");
+					parts = read.nextLine().trim().split(":");
 				}
 			
-				if(line[0].equals(id)){
+				if(parts[0].equals(id)){
 					log.print(id + ":");
-					log.print(line[1] + ":");
+					log.print(parts[1] + ":");
 					log.println("true");
 				} 
 				else{
-					log.print(line[0] + ":");
-					log.print(line[1] + ":");
-					log.println(line[2]);
+					log.print(parts[0] + ":");
+					log.print(parts[1] + ":");
+					log.println(parts[2]);
 				}
 			}
 			log.close();
@@ -229,7 +227,7 @@ public class Assig4 {
     				
     				for(int i = 0; i < ballots.size(); i++){
     					try {
-							writeToBallot(ballots.get(i).returnID(), ballots.get(i).returnOptions(), Ballot.buttonClicked);
+							writeToBallot(ballots.get(i).returnID(), ballots.get(i).returnOptions(), Ballot.buttonClicked.get(i));
 							
 						} 
     					catch (IOException e1) {
@@ -244,6 +242,7 @@ public class Assig4 {
 							Ballot.totalButtons.get(j)[i].setSelected(false);
 						}
 					}
+    				Ballot.buttonClicked.clear();
     			}
     		}
     	});

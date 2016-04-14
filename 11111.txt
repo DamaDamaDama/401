@@ -1,4 +1,4 @@
-Team Fortress 2:0
-CSGO:0
+Team Fortress 2:2
+CSGO:1
 League of Legends:0
-Dota 2:0
+Dota 2:5
