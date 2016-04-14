@@ -26,27 +26,6 @@ public class Ballot extends JPanel{
 	}
 	
 	public static void gui(ArrayList<Ballot> ballots){
-		
-    	
-    	
-    	/* PRESERVED FOR LATER LOOKING
-    	JButton btnTF2 = new JButton("Team Fortress 2");
-    	btnTF2.setEnabled(false);
-    	btnTF2.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			System.out.println("voting button pressed");
-    			if(testCounter % 2 != 0){
-    				btnTF2.setForeground(Color.RED);
-    				btnTF2.setSelected(true);
-    			}
-    			else{
-    				btnTF2.setForeground(Color.BLACK);
-    			}
-    			
-    		}
-    	});
-    	*/
-		
     	
     	for(int j = 0; j < ballots.size(); j++){ //generate buttons belonging to arraylists that belong to an arraylist
 			for(int i = 0; i < 4; i++){
@@ -54,6 +33,12 @@ public class Ballot extends JPanel{
 				totalButtons.get(j)[i].setText(ballots.get(j).returnOptions()[i]);
 				totalButtons.get(j)[i].setFont(new Font("Arial", Font.PLAIN, 16));
 				totalButtons.get(j)[i].setEnabled(false);
+				if(j == 0){
+					totalButtons.get(j)[i].setAlignmentY(Component.LEFT_ALIGNMENT); //attempting to align buttons
+				}
+				if(j == 1){
+					totalButtons.get(j)[i].setAlignmentY(Component.RIGHT_ALIGNMENT); //again attempting to align buttons
+				}
 				totalButtons.get(j)[i].addActionListener(ButtonListener.buttonListener);
 					
 

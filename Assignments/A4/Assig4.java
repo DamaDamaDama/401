@@ -11,8 +11,8 @@ import java.util.*;
 
 public class Assig4 {
 	
-	static final int HEIGHT = 400;
-	static final int WIDTH = 700;
+	static final int HEIGHT = 300;
+	static final int WIDTH = 450;
 	static File f;
 	static String inputValue;
 	static ArrayList<Ballot> ballots = new ArrayList<Ballot>();
@@ -146,19 +146,25 @@ public class Assig4 {
 	}
 	
 	public static void makeLabels(JFrame window, JPanel ballotPanel){ //generates labels for ballot titles
-		String ballotName;
+		String ballotName = null;
 		
 		for(int i = 0; i < ballots.size(); i++){
-    		ballotName = ballots.get(i).returnBName();	
-    		labels.add(new JLabel(ballotName));
+    		ballotName = ballots.get(i).returnBName();
+			labels.add(new JLabel(ballotName));
     	}
 		
 		for(int k = 0; k < ballots.size(); k++){
 			labels.get(k).setText(ballots.get(k).bName);
 			labels.get(k).setForeground(Color.DARK_GRAY);
-			labels.get(k).setHorizontalAlignment(SwingConstants.CENTER);
 			labels.get(k).setFont(new Font("Impact", Font.PLAIN, 24));
 	    	window.add(labels.get(k));
+	    	labels.get(k).setVisible(true);
+	    	if(k == 0){
+	    		labels.get(k).setAlignmentY(Component.LEFT_ALIGNMENT);
+	    	}
+	    	if(k == 1){
+	    		labels.get(k).setAlignmentY(Component.RIGHT_ALIGNMENT);
+	    	}
 		}
 	}
 	
@@ -166,13 +172,13 @@ public class Assig4 {
     	String ballot = args[0];
     	String voters = args[1];
     	
-        readFrom(ballot);
+        readFrom(ballot); //take in data from ballot.txt or whatever
         
         for(int i = 0; i < Assig4.ballots.size(); i++){ //generate arraylist of ballot specific buttons
     		Ballot.totalButtons.add(new JToggleButton[ballots.get(0).returnOptions().length]); //buttons per ballot, FIX THE ZERO
     	}
         
-        JFrame window = new JFrame("vot.er");
+        JFrame window = new JFrame("vot.er");  //window for the whole gui
     	window.setLocation(new Point(600, 350));
     	window.setSize(WIDTH, HEIGHT);
     	window.getContentPane().setBackground(Color.CYAN);
@@ -180,39 +186,48 @@ public class Assig4 {
     	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	window.setVisible(true);
     	
-    	FlowLayout flowLayout = new FlowLayout();
-    	window.getContentPane().setLayout(flowLayout);
+    	FlowLayout flowLayout = new FlowLayout(); //layout for frame
+    	window.setLayout(flowLayout);
     	
     	for(int i = 0; i < ballots.size(); i++){
     		panels.add(new JPanel());
     		panels.get(i).setLayout(new BoxLayout(panels.get(i), BoxLayout.Y_AXIS));
     		panels.get(i).setVisible(true);
+    		panels.get(i).setForeground(Color.CYAN);
+    		if(i == 0){
+    			panels.get(i).setAlignmentY(Component.LEFT_ALIGNMENT);
+    		}
+    		if(i == 1){
+    			panels.get(i).setAlignmentY(Component.RIGHT_ALIGNMENT);
+    		}
     	}
     	
     	for(int i = 0; i < ballots.size(); i++){
         	makeLabels(window, panels.get(i));	
     	}
-    	/*
-    	JLabel mostPopular = new JLabel("MOST POPULAR");
-    	mostPopular.setForeground(Color.DARK_GRAY);
-    	mostPopular.setHorizontalAlignment(SwingConstants.CENTER);
-    	mostPopular.setFont(new Font("Impact", Font.PLAIN, 24));
-    	window.getContentPane().add(mostPopular);
     	
-    	JLabel favorite = new JLabel("FAVORITE");
-    	favorite.setForeground(Color.DARK_GRAY);
-    	favorite.setHorizontalAlignment(SwingConstants.CENTER);
-    	favorite.setFont(new Font("Impact", Font.PLAIN, 24));
-    	window.getContentPane().add(favorite);
-    	*/
+    	//JPanel test1 = new JPanel();  //TESTING BOXLAYOUT
+    	//window.add(test1);
+    	//test1.setLayout(new BoxLayout(test1, BoxLayout.Y_AXIS)); //TESTING BOXLAYOUT
+    	//test1.setVisible(true);
+ 
     	Ballot.gui(ballots); //button related GUI
     	
 		for(int j = 0; j < Ballot.totalButtons.size(); j++){
 			for(int i = 0; i < Ballot.totalButtons.get(j).length; i++){
+				if(j == 0){
+	    			panels.get(j).setAlignmentY(Component.CENTER_ALIGNMENT);
+	    		}
+	    		if(j == 1){
+	    			panels.get(j).setAlignmentY(Component.RIGHT_ALIGNMENT);
+	    		}
 				panels.get(j).add(Ballot.totalButtons.get(j)[i]);
-				window.add(Ballot.totalButtons.get(j)[i]);
+				window.add(panels.get(j));
+				//window.add(Ballot.totalButtons.get(j)[i]); no longer necessary but keeping in case
 			}
 		}
+		
+		
     	JButton btnLogin = new JButton("LOGIN HERE");
 		JButton castVote = new JButton("CAST VOTE");
     	castVote.setEnabled(false);
@@ -243,12 +258,12 @@ public class Assig4 {
 						}
 					}
     				Ballot.buttonClicked.clear();
+    				window.setTitle("vot.er");
     			}
     		}
     	});
     	window.getContentPane().add(castVote);
     	
-    	btnLogin.setFont(new Font("Arial", Font.PLAIN, 16));
     	btnLogin.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			System.out.println("login button pressed");
@@ -262,6 +277,7 @@ public class Assig4 {
 						welcome.setMessage("Welcome, " + name);
 						dialog.setSize(300, 150);
 						dialog.show();
+						window.setTitle("Logged in as: " + name);
 						btnLogin.setEnabled(false);
 						castVote.setEnabled(true);
 						for(int j = 0; j < Ballot.totalButtons.size(); j++){
@@ -294,8 +310,6 @@ public class Assig4 {
     		}
     	});
     	window.getContentPane().add(btnLogin);
-    	
     	window.setVisible(true);
-    	
     }
 }
