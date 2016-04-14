@@ -1,4 +1,4 @@
-6666:Jack Kennedy:false
-1234:Ken M:false
-4321:Finnegan DeGroot:false
-7775:Adolf Hitler:true
+1234:Ken M:true
+5555:Joe Schmoe:true
+4321:Adolf Hitler:false
+9999:Joseph Stalin:false

@@ -1,8 +1,20 @@
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import java.io.*;
+import java.util.*;
 
 public class testarr {
-	public static void main(String args[]){
+	public static void main(String args[]) throws IOException{
+		
+		File f = new File("testarr.txt");
+		f.createNewFile();
+		
+		FileOutputStream fos = new FileOutputStream("testarr.txt", true);
+	    PrintWriter      log  = new PrintWriter(fos);
+	     
+	    
+	    log.println("FUCKING WORK PELASE");
+	    log.close();
 		
 		JOptionPane welcome = new JOptionPane();
 		JDialog dialog = welcome.createDialog("vot.er");

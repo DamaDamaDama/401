@@ -7,15 +7,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-
-import Assignments.A3.Question;
-
 import java.util.*;
 
 public class Assig4 {
 	
 	static final int HEIGHT = 400;
 	static final int WIDTH = 700;
+	static File f;
 	static String inputValue;
 	static ArrayList<Ballot> ballots = new ArrayList<Ballot>();
 	static ArrayList<JLabel> labels = new ArrayList<JLabel>();
@@ -26,59 +24,77 @@ public class Assig4 {
 		
 	}
 	
-	public static void writeToBallot(String ballotID, String[] options) throws IOException{ //FIX THIS SO THAT IT DOESNT VOTE FOR ALL OPTIONS,
-		FileOutputStream fos;                                            // AND ONLY INCREMENTS THE BUTTONS ACTUALLY SELECTED
-		try {
-			fos = new FileOutputStream(ballotID, true);
-			PrintWriter log = new PrintWriter(fos);
-			File bID = new File(ballotID + ".txt");
-			Scanner read = new Scanner(bID);
-			String choice;
+	public static void writeToBallot(String ballotID, String[] options, String votedFor) throws IOException{ //FIX THIS SO THAT IT DOESNT VOTE FOR ALL OPTIONS,
 			
-			for(int i = 0; i < options.length; i++){
-				choice = read.nextLine();
-				String[] parts = choice.split(":");
-				log.println(options[i] + ":" + (parts[1] + 1));
+			try{
+				String individualBallots = ballotID + ".txt";
+				File bID = new File(individualBallots);
+				Scanner read = new Scanner(bID);
+				String choice;
+				File t = new File("tempvoters.txt");
+				PrintWriter log = new PrintWriter(t);
+				t.delete();
+				t.createNewFile();
+				
+				while(read.hasNextLine()){
+					choice = read.nextLine();
+					for(int i = 0; i < 4; i++){
+						String[] parts = choice.split(":");
+						if(votedFor == parts[0]){
+							log.println(options[i] + ":" + (Integer.parseInt(parts[1]) + 1));
+						}
+					}
+				}
+				log.close();
+				read.close();
+				bID.delete();
+				t.renameTo(bID); //safe file system
+				
+			} 
+			catch(Exception e){
+				return;
 			}
 			
-			tempFile();
-			
-		} 
-		catch (FileNotFoundException fnfe) {
-			System.out.println("No such file found.");
-		}
         
 	}
 	
-	public static void writeToVoter(String v, String id) throws IOException{
-		FileOutputStream fos;
-		try {
+	public static void writeToVoter(String v, String id){
+		try{
+			ArrayList<String[]> parts = new ArrayList<String[]>();
 			File f = new File(v);
-			fos = new FileOutputStream(v, true);
-			PrintWriter log = new PrintWriter(fos);
+			File t = new File("tempvoters.txt");
+			t.delete();
+			t.createNewFile();
+			PrintWriter log = new PrintWriter(t);
 			
 			Scanner read = new Scanner(f);
-			
-			System.out.println("Did this shit even work?");
-			log.println("TEST");
-			
 			while(read.hasNextLine()){
-				String test = read.nextLine();
-				String[] parts = test.split(":");
-				
-				if(parts[0].equalsIgnoreCase(id)){
-					//log.println(parts[0] + ":" + parts[1] + ":" + "true");
+				String[] line = null;
+				if(read.hasNextLine()){
+					line = read.nextLine().trim().split(":");
+				}
+			
+				if(line[0].equals(id)){
+					log.print(id + ":");
+					log.print(line[1] + ":");
+					log.println("true");
+				} 
+				else{
+					log.print(line[0] + ":");
+					log.print(line[1] + ":");
+					log.println(line[2]);
 				}
 			}
+			log.close();
+			read.close();
+			f.delete();
+			t.renameTo(f); //safe file system
 			
-			tempFile();
-			
-		} 
-		catch (FileNotFoundException fnfe) {
-			System.out.println("No such file found.");
+		} catch(Exception e){
+			return;
 		}
-        
 	}
+	
 	
 	public static void readFrom(String b) throws FileNotFoundException{
 		File f = new File(b);
@@ -151,7 +167,6 @@ public class Assig4 {
     public static void main(String[] args) throws IOException, FileNotFoundException{ //majority of GUI here
     	String ballot = args[0];
     	String voters = args[1];
-        File f = new File(ballot); //not necessary, just have a file method accept String voter and use that as filename
     	
         readFrom(ballot);
         
@@ -162,7 +177,7 @@ public class Assig4 {
         JFrame window = new JFrame("vot.er");
     	window.setLocation(new Point(600, 350));
     	window.setSize(WIDTH, HEIGHT);
-    	window.getContentPane().setBackground(Color.BLACK);
+    	window.getContentPane().setBackground(Color.CYAN);
     	window.setForeground(Color.GREEN);
     	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	window.setVisible(true);
@@ -172,6 +187,8 @@ public class Assig4 {
     	
     	for(int i = 0; i < ballots.size(); i++){
     		panels.add(new JPanel());
+    		panels.get(i).setLayout(new BoxLayout(panels.get(i), BoxLayout.Y_AXIS));
+    		panels.get(i).setVisible(true);
     	}
     	
     	for(int i = 0; i < ballots.size(); i++){
@@ -207,15 +224,13 @@ public class Assig4 {
     			int voteit = JOptionPane.showConfirmDialog(castVote, "Are you sure you want to vote? There is no going back.");
     			
     			if(voteit == 0){
-    				try {
-						writeToVoter(voters, inputValue);
-					} 
-    				catch (IOException e1) {
-						e1.printStackTrace();
-					}
+    				
+						writeToVoter(voters, inputValue); 
+    				
     				for(int i = 0; i < ballots.size(); i++){
     					try {
-							writeToBallot(ballots.get(i).returnID(), ballots.get(i).returnOptions());
+							writeToBallot(ballots.get(i).returnID(), ballots.get(i).returnOptions(), Ballot.buttonClicked);
+							
 						} 
     					catch (IOException e1) {
 							e1.printStackTrace();
@@ -226,6 +241,7 @@ public class Assig4 {
     				for(int j = 0; j < Ballot.totalButtons.size(); j++){
 						for(int i = 0; i < Ballot.totalButtons.get(j).length; i++){
 							Ballot.totalButtons.get(j)[i].setEnabled(false);
+							Ballot.totalButtons.get(j)[i].setSelected(false);
 						}
 					}
     			}

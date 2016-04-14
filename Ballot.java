@@ -11,7 +11,8 @@ public class Ballot extends JPanel{
 	String id;
 	String bName;
 	String[] opSplit;
-	int counter = 1;
+	static boolean selectedVote;
+	static String buttonClicked;
 	static ArrayList<JToggleButton[]> totalButtons = new ArrayList<JToggleButton[]>(); //arraylists per ballot, in my case this was 2
 	
 	public Ballot(String id, String bName, String[] opSplit){
@@ -71,9 +72,14 @@ public class Ballot extends JPanel{
 			
 			if(theButton.isSelected()){
 				theButton.setForeground(Color.RED);
+				selectedVote = true;
+				buttonClicked = theButton.getText();
+				
 			} 
 			else if(!theButton.isSelected()){
 				theButton.setForeground(Color.BLACK);
+				selectedVote = false;
+				buttonClicked = "";
 			}
 		}
 		
